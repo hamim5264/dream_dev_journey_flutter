@@ -70,7 +70,7 @@ class _CounterHomeScreenState extends State<CounterHomeScreen> {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              content: Text("Button pressed 5 times"),
+                              content: Text("Button pressed 5 times."),
                               actions: [
                                 TextButton(
                                   onPressed: () {
