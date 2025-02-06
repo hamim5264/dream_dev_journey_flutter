@@ -36,6 +36,9 @@ dependencies:
   cupertino_icons: ^1.0.8
   responsive_grid: ^2.4.4
   flutter_bootstrap: ^2.0.0
+  responsive_builder: ^0.7.1
+  device_preview: ^1.2.0
+  sizer: ^3.0.5
 
 dev_dependencies:
   flutter_test:
