@@ -1,0 +1,134 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+/// Color Gradients
+const colorRed = Color.fromRGBO(231, 28, 36, 1);
+const colorDark = Color.fromRGBO(136, 28, 32, 1);
+const colorGreen = Color.fromRGBO(33, 191, 115, 1);
+const colorBlue = Color.fromRGBO(52, 152, 219, 1);
+const colorOrange = Color.fromRGBO(230, 126, 34, 1);
+const colorWhite = Color.fromRGBO(255, 255, 255, 1);
+const colorDarkBlue = Color.fromRGBO(44, 62, 80, 1);
+const colorLightGray = Color.fromRGBO(135, 142, 150, 1);
+const colorLight = Color.fromRGBO(211, 211, 211, 1);
+
+/// Title Text Style
+TextStyle head1Text(textColor){
+  return TextStyle(
+    color: textColor,
+    fontSize: 28,
+    fontFamily: "poppins",
+    fontWeight: FontWeight.w700,
+  );
+}
+
+/// Description Text Style
+TextStyle head6Text(textColor){
+  return TextStyle(
+    color: textColor,
+    fontSize: 16,
+    fontFamily: "poppins",
+    fontWeight: FontWeight.w400,
+  );
+}
+
+/// TextFormField Style
+InputDecoration taskAppInputDecoration(label){
+  return InputDecoration(
+    focusedBorder: const OutlineInputBorder(
+      borderSide: BorderSide(color: colorGreen, width: 1,),
+    ),
+    fillColor: colorWhite,
+    filled: true,
+    contentPadding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
+    enabledBorder: const OutlineInputBorder(
+      borderSide: BorderSide(color: colorWhite, width: 0.0,),
+    ),
+    border: const OutlineInputBorder(),
+    labelText: label,
+  );
+}
+
+/// DropDown Style
+DecoratedBox taskAppDropDownStyle(child){
+  return DecoratedBox(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Colors.white, width: 1,),
+        borderRadius: BorderRadius.circular(4),
+      ),
+    child: Padding(
+        padding: EdgeInsets.only(left: 30, right: 30,),
+      child: child,
+    ),
+  );
+}
+
+/// Screen Background Style
+SvgPicture taskAppScreenBackground(context){
+  return SvgPicture.asset(
+    "images/task_background.svg",
+    alignment: Alignment.center,
+    width: MediaQuery.sizeOf(context).width,
+    height: MediaQuery.sizeOf(context).height,
+    fit: BoxFit.cover,
+  );
+}
+
+/// Button Style
+ButtonStyle taskAppButtonStyle(){
+  return ElevatedButton.styleFrom(
+    elevation: 1,
+    padding: EdgeInsets.zero,
+    backgroundColor: Colors.transparent,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6),),
+  );
+}
+
+/// Button Text Style
+TextStyle taskAppButtonTextStyle(){
+  return TextStyle(
+    fontSize: 14,
+    fontFamily: "poppins",
+    fontWeight: FontWeight.w400,
+  );
+}
+
+/// Success Button Style
+Ink taskAppSuccessButtonChild(String buttonText){
+  return Ink(
+    decoration: BoxDecoration(color: colorGreen, borderRadius: BorderRadius.circular(6),),
+    child: Container(
+      height: 45,
+      alignment: Alignment.center,
+      child: Text(buttonText, style: taskAppButtonTextStyle(),),
+    ),
+  );
+}
+
+/// Success Toast Message
+void taskAppSuccessToast(msg){
+  Fluttertoast.showToast(
+      msg: msg,
+      gravity: ToastGravity.BOTTOM,
+    timeInSecForIosWeb: 1,
+    toastLength: Toast.LENGTH_SHORT,
+    backgroundColor: colorGreen,
+    textColor: colorWhite,
+    fontSize: 16.0,
+  );
+}
+
+/// Error Toast Message
+void taskAppErrorToast(msg){
+  Fluttertoast.showToast(
+    msg: msg,
+    gravity: ToastGravity.BOTTOM,
+    timeInSecForIosWeb: 1,
+    toastLength: Toast.LENGTH_SHORT,
+    backgroundColor: colorRed,
+    textColor: colorWhite,
+    fontSize: 16.0,
+  );
+}
