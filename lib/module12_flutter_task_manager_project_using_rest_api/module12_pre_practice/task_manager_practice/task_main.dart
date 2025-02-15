@@ -18,7 +18,7 @@ class TaskManagerDemoApp extends StatelessWidget{
       title: "Task Manager Demo App",
       debugShowCheckedModeBanner: true,
       /// Named Routing
-      initialRoute: "/",
+      initialRoute: "login",
       routes: {
         "/" : (context) => SplashScreen(),
         "login" : (context) => LoginScreen(),
