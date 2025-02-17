@@ -34,6 +34,16 @@ TextStyle head6Text(textColor){
   );
 }
 
+/// Inkwell Text Style
+TextStyle head7Text(textColor){
+  return TextStyle(
+    color: textColor,
+    fontSize: 13,
+    fontFamily: "poppins",
+    fontWeight: FontWeight.w400,
+  );
+}
+
 /// TextFormField Style
 InputDecoration taskAppInputDecoration(label){
   return InputDecoration(
