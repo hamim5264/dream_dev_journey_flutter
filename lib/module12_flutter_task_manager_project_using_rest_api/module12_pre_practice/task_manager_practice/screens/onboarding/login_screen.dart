@@ -10,39 +10,33 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
-  Map<String, String> formValues = {"email":"", "password":""};
+  Map<String, String> formValues = {"email": "", "password": ""};
   bool isLoading = false;
 
-  inputOnChange(mapKey, textValue){
+  inputOnChange(mapKey, textValue) {
     setState(() {
-      formValues.update(mapKey, (value)=> textValue);
+      formValues.update(mapKey, (value) => textValue);
     });
   }
 
-  formOnSubmit() async{
-    if(formValues["email"]!.isEmpty){
+  formOnSubmit() async {
+    if (formValues["email"]!.isEmpty) {
       taskAppErrorToast("Email required.");
-    }else if(formValues["password"]!.isEmpty){
+    } else if (formValues["password"]!.isEmpty) {
       taskAppErrorToast("Password required.");
-    }else{
+    } else {
       setState(() {
         isLoading = true;
       });
       bool response = await logInRequest(formValues);
-      if(response == true){
+      if (response == true) {
         Navigator.pushNamedAndRemoveUntil(
-            context,
-            "/newTaskList",
-            (route) => false
-        );
-
-      }else{
+            context, "/newTaskList", (route) => false);
+      } else {
         setState(() {
           isLoading = false;
         });
       }
-
     }
   }
 
@@ -54,47 +48,119 @@ class _LoginScreenState extends State<LoginScreen> {
           taskAppScreenBackground(context),
           Container(
             alignment: Alignment.center,
-            child: isLoading ? (Center(child: CircularProgressIndicator(color: colorGreen,),)):(SingleChildScrollView(
-              padding: EdgeInsets.all(30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Get Started With", style: head1Text(colorDarkBlue,),),
-                  SizedBox(height: 1,),
-                  Text("Learn with rabbil hasan", style: head6Text(colorLightGray,),),
-                  SizedBox(height: 20,),
-                  TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                    decoration:
-                    taskAppInputDecoration("Email Address",),
-                    cursorColor: colorGreen,
-                    onChanged: (textValue){
-                      inputOnChange("email", textValue);
-                    },
-                  ),
-                  SizedBox(height: 20,),
-                  TextFormField(
-                    textInputAction: TextInputAction.done,
-                    decoration: taskAppInputDecoration("Password",),cursorColor: colorGreen,
-                    onChanged: (textValue){
-                      inputOnChange("password", textValue);
-                    },
-                  ),
-                  SizedBox(height: 20,),
-                  Container(child: ElevatedButton(
-                    style: taskAppButtonStyle(),
-                    onPressed: (){
-                      formOnSubmit();
-                    },
-                    child: taskAppSuccessButtonChild("Login",),
-                  ),
-                  ),
-                ],
-              ),
-            )
-            ),
+            child: isLoading
+                ? (Center(
+                    child: const CircularProgressIndicator(
+                      color: colorGreen,
+                    ),
+                  ))
+                : (SingleChildScrollView(
+                    padding: const EdgeInsets.all(30),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Get Started With",
+                          style: head1Text(
+                            colorDarkBlue,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 1,
+                        ),
+                        Text(
+                          "Learn with rabbil hasan",
+                          style: head6Text(
+                            colorLightGray,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          decoration: taskAppInputDecoration(
+                            "Email Address",
+                          ),
+                          cursorColor: colorGreen,
+                          onChanged: (textValue) {
+                            inputOnChange("email", textValue);
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          textInputAction: TextInputAction.done,
+                          decoration: taskAppInputDecoration(
+                            "Password",
+                          ),
+                          cursorColor: colorGreen,
+                          onChanged: (textValue) {
+                            inputOnChange("password", textValue);
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ElevatedButton(
+                          style: taskAppButtonStyle(),
+                          onPressed: () {
+                            formOnSubmit();
+                          },
+                          child: taskAppSuccessButtonChild(
+                            "Login",
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, "/emailVerification");
+                                },
+                                child: Text(
+                                  "Forget Password?",
+                                  style: head7Text(colorLightGray),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(context, "/registration");
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Don't have an account? ",
+                                      style: head7Text(colorDarkBlue),
+                                    ),
+                                    Text(
+                                      "Sign Up",
+                                      style: head7Text(colorGreen),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
           ),
         ],
       ),
