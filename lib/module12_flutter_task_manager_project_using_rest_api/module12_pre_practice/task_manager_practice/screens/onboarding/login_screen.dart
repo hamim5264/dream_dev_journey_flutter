@@ -1,3 +1,4 @@
+import 'package:dream_dev_journey_flutter/module12_flutter_task_manager_project_using_rest_api/module12_pre_practice/task_manager_practice/api/api_clients.dart';
 import 'package:dream_dev_journey_flutter/module12_flutter_task_manager_project_using_rest_api/module12_pre_practice/task_manager_practice/style/task_styles.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,42 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+  Map<String, String> formValues = {"email":"", "password":""};
+  bool isLoading = false;
+
+  inputOnChange(mapKey, textValue){
+    setState(() {
+      formValues.update(mapKey, (value)=> textValue);
+    });
+  }
+
+  formOnSubmit() async{
+    if(formValues["email"]!.isEmpty){
+      taskAppErrorToast("Email required.");
+    }else if(formValues["password"]!.isEmpty){
+      taskAppErrorToast("Password required.");
+    }else{
+      setState(() {
+        isLoading = true;
+      });
+      bool response = await logInRequest(formValues);
+      if(response == true){
+        Navigator.pushNamedAndRemoveUntil(
+            context,
+            "/newTaskList",
+            (route) => false
+        );
+
+      }else{
+        setState(() {
+          isLoading = false;
+        });
+      }
+
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,26 +54,46 @@ class _LoginScreenState extends State<LoginScreen> {
           taskAppScreenBackground(context),
           Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.all(30),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Get Started With", style: head1Text(colorDarkBlue,),),
-                SizedBox(height: 1,),
-                Text("Learn with rabbil hasan", style: head6Text(colorLightGray,),),
-                SizedBox(height: 20,),
-                TextFormField(decoration: taskAppInputDecoration("Email Address",),),
-                SizedBox(height: 20,),
-                TextFormField(decoration: taskAppInputDecoration("Password",),),
-                SizedBox(height: 20,),
-                Container(child: ElevatedButton(
-                  style: taskAppButtonStyle(),
-                    onPressed: (){},
+            child: isLoading ? (Center(child: CircularProgressIndicator(color: colorGreen,),)):(SingleChildScrollView(
+              padding: EdgeInsets.all(30),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Get Started With", style: head1Text(colorDarkBlue,),),
+                  SizedBox(height: 1,),
+                  Text("Learn with rabbil hasan", style: head6Text(colorLightGray,),),
+                  SizedBox(height: 20,),
+                  TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
+                    decoration:
+                    taskAppInputDecoration("Email Address",),
+                    cursorColor: colorGreen,
+                    onChanged: (textValue){
+                      inputOnChange("email", textValue);
+                    },
+                  ),
+                  SizedBox(height: 20,),
+                  TextFormField(
+                    textInputAction: TextInputAction.done,
+                    decoration: taskAppInputDecoration("Password",),cursorColor: colorGreen,
+                    onChanged: (textValue){
+                      inputOnChange("password", textValue);
+                    },
+                  ),
+                  SizedBox(height: 20,),
+                  Container(child: ElevatedButton(
+                    style: taskAppButtonStyle(),
+                    onPressed: (){
+                      formOnSubmit();
+                    },
                     child: taskAppSuccessButtonChild("Login",),
-                ),
-                ),
-              ],
+                  ),
+                  ),
+                ],
+              ),
+            )
             ),
           ),
         ],

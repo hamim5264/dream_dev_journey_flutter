@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 /// Color Gradients
 const colorRed = Color.fromRGBO(231, 28, 36, 1);
@@ -92,6 +93,7 @@ TextStyle taskAppButtonTextStyle(){
     fontSize: 14,
     fontFamily: "poppins",
     fontWeight: FontWeight.w400,
+    color: colorWhite,
   );
 }
 
@@ -130,5 +132,22 @@ void taskAppErrorToast(msg){
     backgroundColor: colorRed,
     textColor: colorWhite,
     fontSize: 16.0,
+  );
+}
+
+PinTheme taskOTPStyle(){
+  return PinTheme(
+    inactiveColor: colorLight,
+    inactiveFillColor: colorWhite,
+    selectedColor: colorGreen,
+    activeColor: colorWhite,
+
+    selectedFillColor: colorGreen,
+    shape: PinCodeFieldShape.box,
+    borderRadius: BorderRadius.circular(5),
+    fieldHeight: 50,
+    borderWidth: 0.5,
+    fieldWidth: 40,
+    activeFillColor: Colors.white,
   );
 }
