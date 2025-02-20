@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Storing user data to shared preferences
-Future<void> writeUserData(userData) async{
+Future<void> writeUserData(userData) async {
   final prefs = await SharedPreferences.getInstance();
 
   await prefs.setString("token", userData["token"]);
@@ -13,10 +13,9 @@ Future<void> writeUserData(userData) async{
 }
 
 /// Reading user data to shared preferences
-Future<String?> readUserData(key) async{
+Future<String?> readUserData(key) async {
   final prefs = await SharedPreferences.getInstance();
 
   String? userSavedData = prefs.getString(key);
   return userSavedData;
-
 }

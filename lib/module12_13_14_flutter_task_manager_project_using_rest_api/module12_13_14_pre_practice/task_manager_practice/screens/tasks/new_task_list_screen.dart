@@ -12,7 +12,7 @@ class _NewTaskListScreenState extends State<NewTaskListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text("New Task List Screen"),
+        child: Text("new task list screen"),
       ),
     );
   }

@@ -15,7 +15,7 @@ const colorLightGray = Color.fromRGBO(135, 142, 150, 1);
 const colorLight = Color.fromRGBO(211, 211, 211, 1);
 
 /// Title Text Style
-TextStyle head1Text(textColor){
+TextStyle head1Text(textColor) {
   return TextStyle(
     color: textColor,
     fontSize: 28,
@@ -25,7 +25,7 @@ TextStyle head1Text(textColor){
 }
 
 /// Description Text Style
-TextStyle head6Text(textColor){
+TextStyle head6Text(textColor) {
   return TextStyle(
     color: textColor,
     fontSize: 16,
@@ -35,7 +35,7 @@ TextStyle head6Text(textColor){
 }
 
 /// Inkwell Text Style
-TextStyle head7Text(textColor){
+TextStyle head7Text(textColor) {
   return TextStyle(
     color: textColor,
     fontSize: 13,
@@ -45,16 +45,22 @@ TextStyle head7Text(textColor){
 }
 
 /// TextFormField Style
-InputDecoration taskAppInputDecoration(label){
+InputDecoration taskAppInputDecoration(label) {
   return InputDecoration(
     focusedBorder: const OutlineInputBorder(
-      borderSide: BorderSide(color: colorGreen, width: 1,),
+      borderSide: BorderSide(
+        color: colorGreen,
+        width: 1,
+      ),
     ),
     fillColor: colorWhite,
     filled: true,
     contentPadding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
     enabledBorder: const OutlineInputBorder(
-      borderSide: BorderSide(color: colorWhite, width: 0.0,),
+      borderSide: BorderSide(
+        color: colorWhite,
+        width: 0.0,
+      ),
     ),
     border: const OutlineInputBorder(),
     labelText: label,
@@ -62,22 +68,28 @@ InputDecoration taskAppInputDecoration(label){
 }
 
 /// DropDown Style
-DecoratedBox taskAppDropDownStyle(child){
+DecoratedBox taskAppDropDownStyle(child) {
   return DecoratedBox(
-      decoration: BoxDecoration(
+    decoration: BoxDecoration(
+      color: Colors.white,
+      border: Border.all(
         color: Colors.white,
-        border: Border.all(color: Colors.white, width: 1,),
-        borderRadius: BorderRadius.circular(4),
+        width: 1,
       ),
+      borderRadius: BorderRadius.circular(4),
+    ),
     child: Padding(
-        padding: EdgeInsets.only(left: 30, right: 30,),
+      padding: EdgeInsets.only(
+        left: 30,
+        right: 30,
+      ),
       child: child,
     ),
   );
 }
 
 /// Screen Background Style
-SvgPicture taskAppScreenBackground(context){
+SvgPicture taskAppScreenBackground(context) {
   return SvgPicture.asset(
     "images/task_background.svg",
     alignment: Alignment.center,
@@ -88,17 +100,19 @@ SvgPicture taskAppScreenBackground(context){
 }
 
 /// Button Style
-ButtonStyle taskAppButtonStyle(){
+ButtonStyle taskAppButtonStyle() {
   return ElevatedButton.styleFrom(
     elevation: 1,
     padding: EdgeInsets.zero,
     backgroundColor: Colors.transparent,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6),),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(6),
+    ),
   );
 }
 
 /// Button Text Style
-TextStyle taskAppButtonTextStyle(){
+TextStyle taskAppButtonTextStyle() {
   return TextStyle(
     fontSize: 14,
     fontFamily: "poppins",
@@ -108,22 +122,28 @@ TextStyle taskAppButtonTextStyle(){
 }
 
 /// Success Button Style
-Ink taskAppSuccessButtonChild(String buttonText){
+Ink taskAppSuccessButtonChild(String buttonText) {
   return Ink(
-    decoration: BoxDecoration(color: colorGreen, borderRadius: BorderRadius.circular(6),),
+    decoration: BoxDecoration(
+      color: colorGreen,
+      borderRadius: BorderRadius.circular(6),
+    ),
     child: Container(
       height: 45,
       alignment: Alignment.center,
-      child: Text(buttonText, style: taskAppButtonTextStyle(),),
+      child: Text(
+        buttonText,
+        style: taskAppButtonTextStyle(),
+      ),
     ),
   );
 }
 
 /// Success Toast Message
-void taskAppSuccessToast(msg){
+void taskAppSuccessToast(msg) {
   Fluttertoast.showToast(
-      msg: msg,
-      gravity: ToastGravity.BOTTOM,
+    msg: msg,
+    gravity: ToastGravity.BOTTOM,
     timeInSecForIosWeb: 1,
     toastLength: Toast.LENGTH_SHORT,
     backgroundColor: colorGreen,
@@ -133,7 +153,7 @@ void taskAppSuccessToast(msg){
 }
 
 /// Error Toast Message
-void taskAppErrorToast(msg){
+void taskAppErrorToast(msg) {
   Fluttertoast.showToast(
     msg: msg,
     gravity: ToastGravity.BOTTOM,
@@ -145,13 +165,12 @@ void taskAppErrorToast(msg){
   );
 }
 
-PinTheme taskOTPStyle(){
+PinTheme taskOTPStyle() {
   return PinTheme(
     inactiveColor: colorLight,
     inactiveFillColor: colorWhite,
     selectedColor: colorGreen,
     activeColor: colorWhite,
-
     selectedFillColor: colorGreen,
     shape: PinCodeFieldShape.box,
     borderRadius: BorderRadius.circular(5),
