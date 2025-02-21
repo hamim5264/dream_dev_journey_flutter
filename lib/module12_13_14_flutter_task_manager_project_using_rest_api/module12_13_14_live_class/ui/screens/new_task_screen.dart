@@ -1,3 +1,4 @@
+import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_live_class/ui/screens/add_new_task_screen.dart';
 import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_live_class/ui/widgets/profile_summary_card.dart';
 import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_live_class/ui/widgets/summary_card.dart';
 import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_live_class/ui/widgets/task_item_card.dart';
@@ -14,6 +15,20 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddNewTaskScreen(),
+            ),
+          );
+        },
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -49,10 +64,11 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
             ),
             Expanded(
               child: ListView.builder(
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    return const TaskItemCard();
-                  }),
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return const TaskItemCard();
+                },
+              ),
             ),
           ],
         ),
