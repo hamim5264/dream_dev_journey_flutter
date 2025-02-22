@@ -24,11 +24,21 @@ TextStyle head1Text(textColor) {
   );
 }
 
-/// Description Text Style
+/// Description Text Style 1
 TextStyle head6Text(textColor) {
   return TextStyle(
     color: textColor,
     fontSize: 16,
+    fontFamily: "poppins",
+    fontWeight: FontWeight.w400,
+  );
+}
+
+/// Description Text Style 2
+TextStyle head8Text(textColor) {
+  return TextStyle(
+    color: textColor,
+    fontSize: 9,
     fontFamily: "poppins",
     fontWeight: FontWeight.w400,
   );
@@ -178,5 +188,16 @@ PinTheme taskOTPStyle() {
     borderWidth: 0.5,
     fieldWidth: 40,
     activeFillColor: Colors.white,
+  );
+}
+
+/// Task List Card View
+SizedBox taskItemSizedBox(child) {
+  return SizedBox(
+    width: double.infinity,
+    child: Container(
+      padding: EdgeInsets.all(10),
+      child: child,
+    ),
   );
 }

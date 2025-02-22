@@ -3,8 +3,7 @@ import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_pr
 import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_pre_practice/task_manager_practice/screens/onboarding/pin_verification_screen.dart';
 import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_pre_practice/task_manager_practice/screens/onboarding/registration_screen.dart';
 import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_pre_practice/task_manager_practice/screens/onboarding/set_password_screen.dart';
-import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_pre_practice/task_manager_practice/screens/onboarding/splash_screen.dart';
-import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_pre_practice/task_manager_practice/screens/tasks/new_task_list_screen.dart';
+import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_pre_practice/task_manager_practice/screens/tasks/task_main_home_screen.dart';
 import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_pre_practice/task_manager_practice/utility/task_utilities.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +16,7 @@ void main() async {
     );
   } else {
     runApp(
-      TaskManagerDemoApp("/newTaskList"),
+      TaskManagerDemoApp("/"),
     );
   }
 }
@@ -36,13 +35,12 @@ class TaskManagerDemoApp extends StatelessWidget {
       /// Named Routing
       initialRoute: firstRoute,
       routes: {
-        "/": (context) => SplashScreen(),
+        "/": (context) => TaskMainHomeScreen(),
         "/login": (context) => LoginScreen(),
         "/registration": (context) => RegistrationScreen(),
         "/emailVerification": (context) => EmailVerificationScreen(),
         "/pinVerification": (context) => PinVerificationScreen(),
         "/setPassword": (context) => SetPasswordScreen(),
-        "/newTaskList": (context) => NewTaskListScreen(),
       },
     );
   }
