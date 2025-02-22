@@ -12,6 +12,18 @@ Future<void> writeUserData(userData) async {
   await prefs.setString("photo", userData["data"]["photo"]);
 }
 
+/// Storing user mail for mail-verification
+Future<void> writeEmailVerification(email) async {
+  final pref = await SharedPreferences.getInstance();
+  await pref.setString("EmailVerification", email);
+}
+
+/// Storing user mail for mail-verification
+Future<void> writeOTPVerification(otp) async {
+  final pref = await SharedPreferences.getInstance();
+  await pref.setString("OTPVerification", otp);
+}
+
 /// Reading user data to shared preferences
 Future<String?> readUserData(key) async {
   final prefs = await SharedPreferences.getInstance();

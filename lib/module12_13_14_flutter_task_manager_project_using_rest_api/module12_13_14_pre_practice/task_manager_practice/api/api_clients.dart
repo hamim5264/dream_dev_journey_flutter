@@ -50,6 +50,7 @@ Future<bool> verifyEmailRequest(email) async {
   var resultBody = json.decode(response.body);
 
   if (resultCode == 200 && resultBody["status"] == "success") {
+    await writeEmailVerification(email);
     taskAppSuccessToast("Request Success");
     return true;
   } else {
@@ -67,6 +68,7 @@ Future<bool> verifyOTPRequest(email, otp) async {
   var resultBody = json.decode(response.body);
 
   if (resultCode == 200 && resultBody["status"] == "success") {
+    await writeOTPVerification(otp);
     taskAppSuccessToast("Request Success");
     return true;
   } else {
@@ -76,18 +78,17 @@ Future<bool> verifyOTPRequest(email, otp) async {
 }
 
 /// Set New Password Request
-Future<bool> setNewPasswordRequest(formValues) async {
+Future<bool> setPasswordRequest(formValues) async {
   var url = Uri.parse("$baseURL/RecoverResetPass");
   var postBody = json.encode(formValues);
   var response = await http.post(url, headers: requestHeader, body: postBody);
   var resultCode = response.statusCode;
   var resultBody = json.decode(response.body);
-
-  if (resultCode == 200 && resultBody["status"] == "success") {
-    taskAppSuccessToast("Request Success");
+  if (resultCode == 200 && resultBody['status'] == "success") {
+    taskAppErrorToast("Request Success");
     return true;
   } else {
-    taskAppErrorToast("Request fail, try again!");
+    taskAppErrorToast("Request failed, try again!");
     return false;
   }
 }
