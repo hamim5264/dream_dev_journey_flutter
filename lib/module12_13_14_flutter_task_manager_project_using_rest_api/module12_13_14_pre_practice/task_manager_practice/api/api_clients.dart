@@ -114,3 +114,74 @@ Future<List> taskListByStatusRequest(status) async {
     return [];
   }
 }
+
+/// Task Create Request
+Future<bool> taskCreateRequest(formValues) async {
+  var url = Uri.parse("$baseURL/createTask");
+
+  String? token = await readUserData("token");
+  var requestHeaderWithToken = {
+    "Content-Type": "application/json",
+    "token": "$token"
+  };
+
+  var postBody = json.encode(formValues);
+  var response =
+      await http.post(url, headers: requestHeaderWithToken, body: postBody);
+
+  var resultCode = response.statusCode;
+  var resultBody = json.decode(response.body);
+  if (resultCode == 200 && resultBody["status"] == "success") {
+    taskAppSuccessToast("Request Success.");
+    return true;
+  } else {
+    taskAppErrorToast("Request failed, try again!");
+    return false;
+  }
+}
+
+/// Task Delete Request
+Future<bool> taskDeleteRequest(id) async {
+  var url = Uri.parse("$baseURL/deleteTask/$id");
+
+  String? token = await readUserData("token");
+  var requestHeaderWithToken = {
+    "Content-Type": "application/json",
+    "token": "$token"
+  };
+
+  var response = await http.get(url, headers: requestHeaderWithToken);
+
+  var resultCode = response.statusCode;
+  var resultBody = json.decode(response.body);
+  if (resultCode == 200 && resultBody["status"] == "success") {
+    taskAppSuccessToast("Request Success.");
+    return true;
+  } else {
+    taskAppErrorToast("Request failed, try again!");
+    return false;
+  }
+}
+
+/// Task Status Change
+Future<bool> taskStatusUpdateRequest(id, status) async {
+  var url = Uri.parse("$baseURL/updateTaskStatus/$id/$status");
+
+  String? token = await readUserData("token");
+  var requestHeaderWithToken = {
+    "Content-Type": "application/json",
+    "token": "$token"
+  };
+
+  var response = await http.get(url, headers: requestHeaderWithToken);
+
+  var resultCode = response.statusCode;
+  var resultBody = json.decode(response.body);
+  if (resultCode == 200 && resultBody["status"] == "success") {
+    taskAppSuccessToast("Request Success.");
+    return true;
+  } else {
+    taskAppErrorToast("Request failed, try again!");
+    return false;
+  }
+}

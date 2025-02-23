@@ -3,6 +3,7 @@ import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_pr
 import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_pre_practice/task_manager_practice/screens/onboarding/pin_verification_screen.dart';
 import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_pre_practice/task_manager_practice/screens/onboarding/registration_screen.dart';
 import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_pre_practice/task_manager_practice/screens/onboarding/set_password_screen.dart';
+import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_pre_practice/task_manager_practice/screens/tasks/task_create_screen.dart';
 import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_pre_practice/task_manager_practice/screens/tasks/task_main_home_screen.dart';
 import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_pre_practice/task_manager_practice/utility/task_utilities.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,7 @@ class TaskManagerDemoApp extends StatelessWidget {
         "/emailVerification": (context) => EmailVerificationScreen(),
         "/pinVerification": (context) => PinVerificationScreen(),
         "/setPassword": (context) => SetPasswordScreen(),
+        "/taskCreate": (context) => TaskCreateScreen(),
       },
     );
   }
