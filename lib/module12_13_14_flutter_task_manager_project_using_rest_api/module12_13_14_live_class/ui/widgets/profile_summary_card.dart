@@ -1,7 +1,9 @@
+import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_live_class/ui/controllers/auth_controller.dart';
 import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_live_class/ui/screens/edit_profile_screen.dart';
+import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_live_class/ui/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
-class ProfileSummaryCard extends StatelessWidget {
+class ProfileSummaryCard extends StatefulWidget {
   const ProfileSummaryCard({
     super.key,
     this.enableOnTap = true,
@@ -10,10 +12,15 @@ class ProfileSummaryCard extends StatelessWidget {
   final bool enableOnTap;
 
   @override
+  State<ProfileSummaryCard> createState() => _ProfileSummaryCardState();
+}
+
+class _ProfileSummaryCardState extends State<ProfileSummaryCard> {
+  @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        if (enableOnTap) {
+        if (widget.enableOnTap) {
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -30,25 +37,38 @@ class ProfileSummaryCard extends StatelessWidget {
         ),
       ),
       title: Text(
-        "Abdul Hamim",
+        getFullName,
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.w700,
         ),
       ),
       subtitle: Text(
-        "hamim@gmail.com",
+        AuthController.user?.email ?? "",
         style: TextStyle(
           color: Colors.white,
         ),
       ),
-      trailing: enableOnTap
-          ? const Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.white,
-            )
-          : null,
+      trailing: IconButton(
+        onPressed: () async {
+          await AuthController.clearAuthData();
+          if (mounted) {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+                (route) => false);
+          }
+        },
+        icon: Icon(
+          Icons.logout_rounded,
+          color: Colors.white,
+        ),
+      ),
       tileColor: Colors.green,
     );
+  }
+
+  String get getFullName {
+    return "${AuthController.user?.firstName ?? ""} ${AuthController.user?.lastName ?? ""}";
   }
 }
