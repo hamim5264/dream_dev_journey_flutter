@@ -114,7 +114,8 @@ ButtonStyle taskAppButtonStyle() {
   return ElevatedButton.styleFrom(
     elevation: 1,
     padding: EdgeInsets.zero,
-    backgroundColor: Colors.transparent,
+    //backgroundColor: Colors.transparent,
+    backgroundColor: colorGreen,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(6),
     ),
@@ -199,5 +200,33 @@ SizedBox taskItemSizedBox(child) {
       padding: EdgeInsets.all(10),
       child: child,
     ),
+  );
+}
+
+/// Status Child
+Container statusChild(statusText, statusColor) {
+  return Container(
+    alignment: Alignment.center,
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20), color: statusColor),
+    height: 20,
+    width: 60,
+    child: Text(
+      statusText,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 10,
+        fontWeight: FontWeight.w400,
+      ),
+    ),
+  );
+}
+
+/// App StatusButtonStyle
+ButtonStyle appStatusButtonStyle(buttonColor) {
+  return ElevatedButton.styleFrom(
+    elevation: 1,
+    padding: EdgeInsets.zero,
+    backgroundColor: buttonColor,
   );
 }
