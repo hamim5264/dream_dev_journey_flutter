@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_live_class/data/network_caller/network_response.dart';
+import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_live_class/ui/controllers/auth_controller.dart';
 import 'package:http/http.dart';
 
 class NetworkCaller {
@@ -13,7 +14,9 @@ class NetworkCaller {
       final Response response =
           await post(Uri.parse(url), body: jsonEncode(body), headers: {
         "Content-type": "Application/json",
+        "token": AuthController.token.toString(),
       });
+      log(response.headers.toString());
       log(response.statusCode.toString());
       log(response.body.toString());
 
