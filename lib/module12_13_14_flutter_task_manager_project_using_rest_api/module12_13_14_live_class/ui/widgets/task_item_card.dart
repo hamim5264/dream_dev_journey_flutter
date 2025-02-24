@@ -1,9 +1,13 @@
+import 'package:dream_dev_journey_flutter/module12_13_14_flutter_task_manager_project_using_rest_api/module12_13_14_live_class/data/models/task.dart';
 import 'package:flutter/material.dart';
 
 class TaskItemCard extends StatelessWidget {
   const TaskItemCard({
     super.key,
+    required this.task,
   });
+
+  final Task task;
 
   @override
   Widget build(BuildContext context) {
@@ -19,24 +23,24 @@ class TaskItemCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Title will be here",
+              task.title ?? "",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
               ),
             ),
             Text(
-              "Descriptions",
+              task.description ?? "",
             ),
             Text(
-              "Date: 20-02-2025",
+              task.createdDate ?? "",
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Chip(
                   label: Text(
-                    "New",
+                    task.status ?? "New",
                     style: TextStyle(
                       color: Colors.white,
                     ),
