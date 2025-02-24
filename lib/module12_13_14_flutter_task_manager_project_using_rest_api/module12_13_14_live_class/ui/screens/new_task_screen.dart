@@ -73,11 +73,14 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddNewTaskScreen(),
+              builder: (context) => const AddNewTaskScreen(),
             ),
-          );
+          ).then((_) {
+            getNewTaskList();
+            taskCountSummaryList();
+          });
         },
-        child: Icon(
+        child: const Icon(
           Icons.add,
           color: Colors.white,
         ),
@@ -131,6 +134,16 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                     itemBuilder: (context, index) {
                       return TaskItemCard(
                         task: taskListModel.taskList![index],
+                        onStatusChange: () {
+                          getNewTaskList();
+                          taskCountSummaryList();
+                        },
+                        showProgress: (inProgress) {
+                          getNewTaskInProgress = inProgress;
+                          if (mounted) {
+                            setState(() {});
+                          }
+                        },
                       );
                     },
                   ),
