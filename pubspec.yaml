@@ -47,6 +47,7 @@ dependencies:
   fluttertoast: ^8.2.11
   pin_code_fields: ^8.0.1
   shared_preferences: ^2.5.2
+  image_picker: ^1.1.2
 
 
 dev_dependencies:

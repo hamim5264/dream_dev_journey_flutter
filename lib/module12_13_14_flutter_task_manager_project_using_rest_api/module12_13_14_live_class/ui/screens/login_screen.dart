@@ -200,11 +200,11 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       if (response.statusCode == 401) {
         if (mounted) {
-          showSnackMessage(context, "Please check your email/password");
+          showSnackMessage(context, "Please check your email/password", true);
         }
       } else {
         if (mounted) {
-          showSnackMessage(context, "Log in failed, try again.");
+          showSnackMessage(context, "Log in failed, try again.", true);
         }
       }
     }
