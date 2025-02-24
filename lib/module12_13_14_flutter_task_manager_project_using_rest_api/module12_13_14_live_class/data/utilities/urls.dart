@@ -7,7 +7,11 @@ class Urls {
   static final createTask = "$_baseUrl/createTask";
   static final getNewTasks = "$_baseUrl/listTaskByStatus/New";
 
-  //static getNewTasks = "$_baseUrl/listTaskByStatus/${TaskStatus.New.name}";
+  /*
+    We can call task status for api integration from enum class ->
+    static getNewTasks = "$_baseUrl/listTaskByStatus/${TaskStatus.New.name}";
+   */
+
   static final getProgressTasks = "$_baseUrl/listTaskByStatus/Progress";
   static final getCompletedTasks = "$_baseUrl/listTaskByStatus/Completed";
   static final getCancelledTasks = "$_baseUrl/listTaskByStatus/Cancelled";
@@ -17,4 +21,12 @@ class Urls {
       "$_baseUrl/updateTaskStatus/$taskId/$status";
 
   static deleteTask(String taskId) => "$_baseUrl/deleteTask/$taskId";
+  static final profileUpdate = "$_baseUrl/profileUpdate";
+
+  static recoverEmail(String email) => "$_baseUrl/RecoverVerifyEmail/$email";
+
+  static verifyOTP(String email, String otp) =>
+      "$_baseUrl/RecoverVerifyOTP/$email/$otp";
+
+  static final resetPassword = "$_baseUrl/RecoverResetPass";
 }
