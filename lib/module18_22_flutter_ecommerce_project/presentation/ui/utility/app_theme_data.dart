@@ -68,6 +68,13 @@ class AppThemeData {
             vertical: 14,
           )),
     ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: AppColors.primaryColor,
+        shadowColor: Colors.blue.shade50,
+
+      ),
+    ),
   );
 
   static ThemeData darkThemeData = ThemeData(
@@ -138,6 +145,12 @@ class AppThemeData {
         padding: const EdgeInsets.symmetric(
           vertical: 14,
         ),
+      ),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: AppColors.primaryColor,
+        shadowColor: Colors.blue.shade50,
       ),
     ),
   );
