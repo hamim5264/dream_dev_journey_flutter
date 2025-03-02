@@ -10,6 +10,8 @@ class CraftyBayApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       theme: AppThemeData.lightThemeData,
+      darkTheme: AppThemeData.darkThemeData,
+      themeMode: ThemeMode.system,
       home: const SplashScreen(),
     );
   }
