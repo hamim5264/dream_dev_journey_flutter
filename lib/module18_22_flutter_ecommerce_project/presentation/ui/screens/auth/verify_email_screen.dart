@@ -43,6 +43,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                 height: 16,
               ),
               TextFormField(
+                keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
                   hintText: "Email Address",
                 ),
