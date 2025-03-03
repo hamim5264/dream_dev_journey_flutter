@@ -4,11 +4,11 @@ class SectionTitle extends StatelessWidget {
   const SectionTitle({
     super.key,
     required this.title,
-    required this.onTapAll,
+    required this.onTapSeeAll,
   });
 
   final String title;
-  final VoidCallback onTapAll;
+  final VoidCallback onTapSeeAll;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class SectionTitle extends StatelessWidget {
           ),
         ),
         TextButton(
-          onPressed: onTapAll,
+          onPressed: onTapSeeAll,
           child: Text(
             "See All",
           ),
