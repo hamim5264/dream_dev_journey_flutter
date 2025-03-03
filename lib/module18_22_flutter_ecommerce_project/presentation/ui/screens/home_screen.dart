@@ -1,4 +1,5 @@
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/main_bottom_nav_controller.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/product_list_screen.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/utility/assets_path.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/category_item.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/home/circle_icon_button.dart';
@@ -46,7 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
               categoryList,
               SectionTitle(
                 title: "Popular",
-                onTapSeeAll: () {},
+                onTapSeeAll: () {
+                  Get.to(const ProductListScreen());
+                },
               ),
               const SizedBox(
                 height: 8,

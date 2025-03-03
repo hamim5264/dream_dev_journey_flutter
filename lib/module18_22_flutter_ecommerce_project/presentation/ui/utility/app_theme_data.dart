@@ -7,6 +7,14 @@ class AppThemeData {
       AppColors.primaryColor.r.toInt(),
       AppColors.colorsSwatch,
     ),
+    appBarTheme: const AppBarTheme(
+        titleTextStyle: TextStyle(
+          fontSize: 18,
+          color: Colors.black,
+        ),
+        elevation: 5,
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Colors.white),
     textSelectionTheme: const TextSelectionThemeData(
       cursorColor: AppColors.primaryColor,
       selectionHandleColor: AppColors.primaryColor,
@@ -72,7 +80,6 @@ class AppThemeData {
       style: TextButton.styleFrom(
         foregroundColor: AppColors.primaryColor,
         shadowColor: Colors.blue.shade50,
-
       ),
     ),
   );
@@ -84,6 +91,14 @@ class AppThemeData {
       AppColors.colorsSwatch,
     ),
     scaffoldBackgroundColor: Colors.black,
+    appBarTheme: const AppBarTheme(
+        titleTextStyle: TextStyle(
+          fontSize: 18,
+          color: Colors.white,
+        ),
+        elevation: 5,
+        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: Colors.black),
     textSelectionTheme: const TextSelectionThemeData(
       cursorColor: AppColors.primaryColor,
       selectionHandleColor: AppColors.primaryColor,
