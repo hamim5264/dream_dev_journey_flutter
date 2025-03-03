@@ -1,10 +1,12 @@
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/main_bottom_nav_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/carts_screen.dart';
-import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/categories_screen.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/category_screen.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/home_screen.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/wishlist_screen.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/utility/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MainBottomNavScreen extends StatefulWidget {
   const MainBottomNavScreen({super.key});
@@ -14,57 +16,53 @@ class MainBottomNavScreen extends StatefulWidget {
 }
 
 class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
-  int _selectedIndex = 0;
   final List<Widget> _screens = const [
     HomeScreen(),
-    CategoriesScreen(),
+    CategoryScreen(),
     CartsScreen(),
     WishlistScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _screens[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: AppColors.primaryColor,
-        unselectedItemColor: Colors.grey,
-        showUnselectedLabels: true,
-        currentIndex: _selectedIndex,
-        type: BottomNavigationBarType.fixed,
-        onTap: (index) {
-          _selectedIndex = index;
-          if (mounted) {
-            setState(() {});
-          }
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-              CupertinoIcons.home,
+    return GetBuilder<MainBottomNavController>(builder: (controller) {
+      return Scaffold(
+        body: _screens[controller.currentIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          selectedItemColor: AppColors.primaryColor,
+          unselectedItemColor: Colors.grey,
+          showUnselectedLabels: true,
+          currentIndex: controller.currentIndex,
+          type: BottomNavigationBarType.fixed,
+          onTap: controller.changeIndex,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(
+                CupertinoIcons.home,
+              ),
+              label: "Home",
             ),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              CupertinoIcons.square_grid_2x2,
+            BottomNavigationBarItem(
+              icon: Icon(
+                CupertinoIcons.square_grid_2x2,
+              ),
+              label: "Categories",
             ),
-            label: "Categories",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              CupertinoIcons.cart,
+            BottomNavigationBarItem(
+              icon: Icon(
+                CupertinoIcons.cart,
+              ),
+              label: "Carts",
             ),
-            label: "Carts",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              CupertinoIcons.gift,
+            BottomNavigationBarItem(
+              icon: Icon(
+                CupertinoIcons.gift,
+              ),
+              label: "Wish",
             ),
-            label: "Wish",
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    });
   }
 }
