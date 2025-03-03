@@ -12,9 +12,10 @@ class CartProductItem extends StatefulWidget {
 }
 
 class _CartProductItemState extends State<CartProductItem> {
+  ValueNotifier<int> noOfItems = ValueNotifier(1);
+
   @override
   Widget build(BuildContext context) {
-    ValueNotifier<int> noOfItems = ValueNotifier(1);
     return Card(
       elevation: 3,
       child: Row(
