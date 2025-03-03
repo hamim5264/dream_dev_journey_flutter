@@ -24,28 +24,19 @@ class _CategoryScreenState extends State<CategoryScreen> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-              onPressed: () {
-                Get.find<MainBottomNavController>().backToHome();
-              },
-              icon: Icon(
-                CupertinoIcons.left_chevron,
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black,
-              )),
+            onPressed: () {
+              Get.find<MainBottomNavController>().backToHome();
+            },
+            icon: Icon(
+              CupertinoIcons.left_chevron,
+            ),
+          ),
           title: Text(
             "Categories",
             style: TextStyle(
               fontSize: 18,
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.white
-                  : Colors.black,
             ),
           ),
-          elevation: 3,
-          backgroundColor: Theme.of(context).brightness == Brightness.dark
-              ? Colors.black
-              : Colors.white,
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
