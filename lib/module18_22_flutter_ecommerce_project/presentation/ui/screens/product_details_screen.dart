@@ -1,9 +1,11 @@
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/reviews_screen.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/utility/app_colors.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/product_details/color_selector.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/product_details/product_image_carousel.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/product_details/size_selector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:item_count_number_button/item_count_number_button.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -196,7 +198,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           width: 8,
         ),
         TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(const ReviewsScreen());
+            },
             child: Text(
               "Reviews",
               style: TextStyle(

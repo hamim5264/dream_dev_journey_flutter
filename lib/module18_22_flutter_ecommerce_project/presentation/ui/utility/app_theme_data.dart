@@ -82,6 +82,14 @@ class AppThemeData {
         shadowColor: Colors.blue.shade50,
       ),
     ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: AppColors.primaryColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(100),
+      ),
+      foregroundColor: Colors.white,
+      elevation: 0,
+    ),
   );
 
   static ThemeData darkThemeData = ThemeData(
@@ -167,6 +175,14 @@ class AppThemeData {
         foregroundColor: AppColors.primaryColor,
         shadowColor: Colors.blue.shade50,
       ),
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: AppColors.primaryColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(100),
+      ),
+      foregroundColor: Colors.white,
+      elevation: 0,
     ),
   );
 }
