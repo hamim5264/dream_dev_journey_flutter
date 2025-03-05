@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/send_email_otp_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/auth/complete_profile_screen.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/utility/app_colors.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/app_logo.dart';
@@ -42,12 +43,53 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
     });
   }
 
-  void _resendCode() {
-    setState(() {
-      _secondsRemaining = 120;
-      _isResendEnabled = false;
-    });
-    _startCountdown();
+  void _resendCode() async {
+    final controller = Get.find<SendEmailOtpController>();
+
+    if (controller.lastSentEmail.isEmpty) {
+      Get.snackbar(
+        "Resend Failed",
+        "No email found. Please go back and enter your email..",
+        snackPosition: SnackPosition.TOP,
+        duration: const Duration(seconds: 2),
+        backgroundColor: AppColors.primaryColor.withValues(alpha: 0.3),
+        colorText: Colors.white,
+        barBlur: 10,
+        margin: const EdgeInsets.all(10),
+      );
+      return;
+    }
+
+    bool result = await controller.sendOtpToEmail(controller.lastSentEmail);
+
+    if (result) {
+      setState(() {
+        _secondsRemaining = 120;
+        _isResendEnabled = false;
+      });
+      _startCountdown();
+      Get.snackbar(
+        "OTP Resent",
+        "A new OTP has been sent to your email.",
+        snackPosition: SnackPosition.TOP,
+        duration: const Duration(seconds: 2),
+        backgroundColor: AppColors.primaryColor.withValues(alpha: 0.3),
+        colorText: Colors.white,
+        barBlur: 10,
+        margin: const EdgeInsets.all(10),
+      );
+    } else {
+      Get.snackbar(
+        "Resend Failed",
+        "No email found. Please go back and enter your email.",
+        snackPosition: SnackPosition.TOP,
+        duration: const Duration(seconds: 2),
+        backgroundColor: AppColors.primaryColor.withValues(alpha: 0.3),
+        colorText: Colors.white,
+        barBlur: 10,
+        margin: const EdgeInsets.all(10),
+      );
+    }
   }
 
   @override
@@ -84,7 +126,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
               PinCodeTextField(
                 controller: _pinTEController,
                 appContext: context,
-                length: 4,
+                length: 6,
                 obscureText: false,
                 animationType: AnimationType.fade,
                 backgroundColor: Colors.transparent,
@@ -113,7 +155,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                 onCompleted: (v) {
                   setState(
                     () {
-                      if (v == "1234") {
+                      if (v == "000000") {
                         isError = false;
                       } else {
                         isError = true;
