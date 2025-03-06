@@ -2,6 +2,7 @@ import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/
 import 'package:flutter/material.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     const CraftyBayApp(),
   );
