@@ -18,6 +18,7 @@ class CategoryItem extends StatelessWidget {
       onTap: () {
         Get.to(ProductListScreen(
           category: category.categoryName ?? "",
+          categoryId: category.id,
         ));
       },
       child: Column(

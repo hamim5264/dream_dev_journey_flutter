@@ -1,7 +1,11 @@
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/data/models/product_model.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/auth_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/category_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/home_banner_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/main_bottom_nav_controller.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/new_product_controller.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/popular_product_controller.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/special_product_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/auth/verify_email_screen.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/product_list_screen.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/utility/assets_path.dart';
@@ -74,20 +78,52 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 8,
               ),
-              productList,
+              GetBuilder<PopularProductController>(
+                  builder: (popularProductController) {
+                return Visibility(
+                  visible: popularProductController.inProgress == false,
+                  replacement: const CenterCircularProgressIndicator(),
+                  child: productList(
+                      popularProductController.productListModel.productList ??
+                          []),
+                );
+              }),
               SectionTitle(
                 title: "Special",
-                onTapSeeAll: () {},
+                onTapSeeAll: () {
+                  Get.to(const ProductListScreen());
+                },
               ),
-              productList,
+              const SizedBox(
+                height: 8,
+              ),
+              GetBuilder<SpecialProductController>(
+                  builder: (specialProductController) {
+                return Visibility(
+                  visible: specialProductController.inProgress == false,
+                  replacement: const CenterCircularProgressIndicator(),
+                  child: productList(
+                      specialProductController.productListModel.productList ??
+                          []),
+                );
+              }),
               const SizedBox(
                 height: 8,
               ),
               SectionTitle(
                 title: "New",
-                onTapSeeAll: () {},
+                onTapSeeAll: () {
+                  Get.to(const ProductListScreen());
+                },
               ),
-              productList,
+              GetBuilder<NewProductController>(builder: (newProductController) {
+                return Visibility(
+                  visible: newProductController.inProgress == false,
+                  replacement: const CenterCircularProgressIndicator(),
+                  child: productList(
+                      newProductController.productListModel.productList ?? []),
+                );
+              }),
             ],
           ),
         ),
@@ -98,43 +134,45 @@ class _HomeScreenState extends State<HomeScreen> {
   SizedBox get categoryList {
     return SizedBox(
       height: 130,
-      child: GetBuilder<CategoryController>(
-        builder: (categoryController) {
-          return Visibility(
-            visible: categoryController.inProgress == false,
-            replacement: const CenterCircularProgressIndicator(),
-            child: ListView.separated(
-              itemCount: categoryController.categoryListModel.categoryList?.length ?? 0,
-              primary: false,
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return CategoryItem(
-                  category: categoryController.categoryListModel.categoryList![index],
-                );
-              },
-              separatorBuilder: (_, __) {
-                return const SizedBox(
-                  width: 8,
-                );
-              },
-            ),
-          );
-        }
-      ),
+      child: GetBuilder<CategoryController>(builder: (categoryController) {
+        return Visibility(
+          visible: categoryController.inProgress == false,
+          replacement: const CenterCircularProgressIndicator(),
+          child: ListView.separated(
+            itemCount:
+                categoryController.categoryListModel.categoryList?.length ?? 0,
+            primary: false,
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return CategoryItem(
+                category:
+                    categoryController.categoryListModel.categoryList![index],
+              );
+            },
+            separatorBuilder: (_, __) {
+              return const SizedBox(
+                width: 8,
+              );
+            },
+          ),
+        );
+      }),
     );
   }
 
-  SizedBox get productList {
+  SizedBox productList(List<ProductModel> productList) {
     return SizedBox(
       height: 190,
       child: ListView.separated(
-        itemCount: 10,
+        itemCount: productList.length,
         primary: false,
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          return const ProductCardItem();
+          return ProductCardItem(
+            product: productList[index],
+          );
         },
         separatorBuilder: (_, __) {
           return const SizedBox(
