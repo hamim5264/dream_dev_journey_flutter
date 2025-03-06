@@ -1,6 +1,8 @@
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/send_email_otp_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/auth/verify_otp_screen.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/utility/app_colors.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/app_logo.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -76,23 +78,29 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                     width: double.infinity,
                     child: Visibility(
                       visible: controller.inProgress == false,
-                      replacement: const Center(
-                        child: CircularProgressIndicator(),
-                      ),
+                      replacement: const CenterCircularProgressIndicator(),
                       child: ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             final bool result = await controller
                                 .sendOtpToEmail(_emailTEController.text.trim());
                             if (result) {
-                              Get.to(() => const VerifyOTPScreen());
-                            } else {
-                              Get.showSnackbar(
-                                GetSnackBar(
-                                  title: "Send OTP Failed",
-                                  message: controller.errorMessage,
-                                  snackPosition: SnackPosition.BOTTOM,
+                              Get.to(
+                                () => VerifyOTPScreen(
+                                  email: _emailTEController.text.trim(),
                                 ),
+                              );
+                            } else {
+                              Get.snackbar(
+                                "OTP Resent",
+                                controller.errorMessage,
+                                snackPosition: SnackPosition.TOP,
+                                duration: const Duration(seconds: 2),
+                                backgroundColor: AppColors.primaryColor
+                                    .withValues(alpha: 0.3),
+                                colorText: Colors.white,
+                                barBlur: 10,
+                                margin: const EdgeInsets.all(10),
                               );
                             }
                           }

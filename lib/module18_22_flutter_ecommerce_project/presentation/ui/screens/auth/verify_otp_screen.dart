@@ -1,14 +1,19 @@
 import 'dart:async';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/send_email_otp_controller.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/verify_otp_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/auth/complete_profile_screen.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/main_bottom_nav_screen.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/utility/app_colors.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/app_logo.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class VerifyOTPScreen extends StatefulWidget {
-  const VerifyOTPScreen({super.key});
+  const VerifyOTPScreen({super.key, required this.email});
+
+  final String email;
 
   @override
   State<VerifyOTPScreen> createState() => _VerifyOTPScreenState();
@@ -16,6 +21,8 @@ class VerifyOTPScreen extends StatefulWidget {
 
 class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
   final TextEditingController _pinTEController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   bool isError = false;
   late Timer _timer = Timer(Duration.zero, () {});
   int _secondsRemaining = 120;
@@ -98,127 +105,162 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 160,
-              ),
-              const AppLogo(
-                height: 80,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              Text(
-                "Enter OTP Code",
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              const SizedBox(
-                height: 4,
-              ),
-              Text(
-                "A 4 digit OTP hase been sent",
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              PinCodeTextField(
-                controller: _pinTEController,
-                appContext: context,
-                length: 6,
-                obscureText: false,
-                animationType: AnimationType.fade,
-                backgroundColor: Colors.transparent,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                keyboardType: TextInputType.number,
-                pinTheme: PinTheme(
-                  shape: PinCodeFieldShape.box,
-                  borderRadius: BorderRadius.circular(5),
-                  fieldWidth: 40,
-                  fieldHeight: 50,
-                  activeFillColor: Colors.transparent,
-                  inactiveFillColor: Colors.transparent,
-                  selectedFillColor: Colors.transparent,
-                  activeColor: isError ? Colors.red : AppColors.primaryColor,
-                  inactiveColor:
-                      Get.isDarkMode ? Colors.grey : Colors.grey.shade400,
-                  selectedColor: isError ? Colors.red : AppColors.primaryColor,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 160,
                 ),
-                animationDuration: const Duration(milliseconds: 300),
-                enableActiveFill: false,
-                textStyle: TextStyle(
-                  color: isError ? Colors.red : AppColors.primaryColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+                const AppLogo(
+                  height: 80,
                 ),
-                onCompleted: (v) {
-                  setState(
-                    () {
-                      if (v == "000000") {
-                        isError = false;
-                      } else {
-                        isError = true;
-                      }
-                    },
-                  );
-                },
-                onChanged: (value) {
-                  setState(
-                    () {
-                      isError = false;
-                    },
-                  );
-                },
-                beforeTextPaste: (text) => true,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Get.to(const CompleteProfileScreen());
+                const SizedBox(
+                  height: 24,
+                ),
+                Text(
+                  "Enter OTP Code",
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                const SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  "A 4 digit OTP hase been sent",
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                PinCodeTextField(
+                  controller: _pinTEController,
+                  appContext: context,
+                  length: 6,
+                  obscureText: false,
+                  animationType: AnimationType.fade,
+                  backgroundColor: Colors.transparent,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  keyboardType: TextInputType.number,
+                  pinTheme: PinTheme(
+                    shape: PinCodeFieldShape.box,
+                    borderRadius: BorderRadius.circular(5),
+                    fieldWidth: 40,
+                    fieldHeight: 50,
+                    activeFillColor: Colors.transparent,
+                    inactiveFillColor: Colors.transparent,
+                    selectedFillColor: Colors.transparent,
+                    activeColor: isError ? Colors.red : AppColors.primaryColor,
+                    inactiveColor:
+                        Get.isDarkMode ? Colors.grey : Colors.grey.shade400,
+                    selectedColor:
+                        isError ? Colors.red : AppColors.primaryColor,
+                  ),
+                  animationDuration: const Duration(milliseconds: 300),
+                  enableActiveFill: false,
+                  textStyle: TextStyle(
+                    color: isError ? Colors.red : AppColors.primaryColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  onCompleted: (v) {
+                    setState(
+                      () {
+                        if (v == "000000") {
+                          isError = false;
+                        } else {
+                          isError = true;
+                        }
+                      },
+                    );
                   },
-                  child: const Text(
-                    "Next",
-                  ),
+                  onChanged: (value) {
+                    setState(
+                      () {
+                        isError = false;
+                      },
+                    );
+                  },
+                  beforeTextPaste: (text) => true,
                 ),
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              RichText(
-                text: TextSpan(
-                  style: TextStyle(
-                    color: Colors.grey,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: "This code will expire in ",
-                    ),
-                    TextSpan(
-                      text: "$_secondsRemaining s",
-                      style: TextStyle(
-                        color: AppColors.primaryColor,
-                        fontWeight: FontWeight.w600,
+                const SizedBox(
+                  height: 24,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: GetBuilder<VerifyOTPController>(
+                      builder: (verifyOTPController) {
+                    return Visibility(
+                      visible: verifyOTPController.inProgress == false,
+                      replacement: const CenterCircularProgressIndicator(),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            final bool response = await verifyOTPController
+                                .verifyOTP(widget.email, _pinTEController.text);
+                            if (response) {
+                              if (verifyOTPController
+                                  .shouldNavigateCompleteProfile) {
+                                Get.to(() => const CompleteProfileScreen());
+                              } else {
+                                Get.offAll(() => const MainBottomNavScreen());
+                              }
+                            } else {
+                              Get.snackbar(
+                                "OTP Verification Failed!",
+                                verifyOTPController.errorMessage,
+                                snackPosition: SnackPosition.TOP,
+                                duration: const Duration(seconds: 2),
+                                backgroundColor: AppColors.primaryColor
+                                    .withValues(alpha: 0.3),
+                                colorText: Colors.white,
+                                barBlur: 10,
+                                margin: const EdgeInsets.all(10),
+                              );
+                            }
+                          }
+                        },
+                        child: const Text(
+                          "Next",
+                        ),
                       ),
-                    ),
-                  ],
+                    );
+                  }),
                 ),
-              ),
-              TextButton(
-                onPressed: _isResendEnabled ? _resendCode : null,
-                child: Text(
-                  "Resend Code",
-                  style: TextStyle(
-                    color:
-                        _isResendEnabled ? AppColors.primaryColor : Colors.grey,
+                const SizedBox(
+                  height: 24,
+                ),
+                RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: "This code will expire in ",
+                      ),
+                      TextSpan(
+                        text: "$_secondsRemaining s",
+                        style: TextStyle(
+                          color: AppColors.primaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
+                TextButton(
+                  onPressed: _isResendEnabled ? _resendCode : null,
+                  child: Text(
+                    "Resend Code",
+                    style: TextStyle(
+                      color: _isResendEnabled
+                          ? AppColors.primaryColor
+                          : Colors.grey,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
