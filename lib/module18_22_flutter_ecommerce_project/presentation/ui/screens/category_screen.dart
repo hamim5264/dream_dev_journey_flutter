@@ -1,5 +1,8 @@
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/category_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/main_bottom_nav_controller.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/utility/app_colors.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/category_item.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -38,21 +41,39 @@ class _CategoryScreenState extends State<CategoryScreen> {
             ),
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: GridView.builder(
-              itemCount: 20,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                childAspectRatio: 0.95,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 8,
-              ),
-              itemBuilder: (context, index) {
-                return const FittedBox(
-                  child: CategoryItem(),
-                );
-              }),
+        body: RefreshIndicator(
+          color: AppColors.primaryColor,
+          onRefresh: () async {
+            await Get.find<CategoryController>().getCategoryList();
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child:
+                GetBuilder<CategoryController>(builder: (categoryController) {
+              return Visibility(
+                visible: categoryController.inProgress == false,
+                replacement: const CenterCircularProgressIndicator(),
+                child: GridView.builder(
+                    itemCount: categoryController
+                            .categoryListModel.categoryList?.length ??
+                        0,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      childAspectRatio: 0.95,
+                      mainAxisSpacing: 12,
+                      crossAxisSpacing: 8,
+                    ),
+                    itemBuilder: (context, index) {
+                      return FittedBox(
+                        child: CategoryItem(
+                          category: categoryController
+                              .categoryListModel.categoryList![index],
+                        ),
+                      );
+                    }),
+              );
+            }),
+          ),
         ),
       ),
     );

@@ -1,3 +1,5 @@
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/category_controller.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/home_banner_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/main_bottom_nav_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/carts_screen.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/category_screen.dart';
@@ -22,6 +24,13 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
     CartsScreen(),
     WishlistScreen(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    Get.find<HomeBannerController>().getBannerList();
+    Get.find<CategoryController>().getCategoryList();
+  }
 
   @override
   Widget build(BuildContext context) {
