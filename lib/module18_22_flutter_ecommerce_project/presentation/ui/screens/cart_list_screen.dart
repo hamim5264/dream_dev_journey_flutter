@@ -1,18 +1,28 @@
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/cart_list_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/main_bottom_nav_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/utility/app_colors.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/carts/cart_product_item.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CartsScreen extends StatefulWidget {
-  const CartsScreen({super.key});
+class CartListScreen extends StatefulWidget {
+  const CartListScreen({super.key});
 
   @override
-  State<CartsScreen> createState() => _CartsScreenState();
+  State<CartListScreen> createState() => _CartListScreenState();
 }
 
-class _CartsScreenState extends State<CartsScreen> {
+class _CartListScreenState extends State<CartListScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Get.find<CartListController>().getCartList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -36,27 +46,38 @@ class _CartsScreenState extends State<CartsScreen> {
             ),
           ),
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: ListView.separated(
-                itemCount: 4,
-                itemBuilder: (context, index) {
-                  return const CartProductItem();
-                },
-                separatorBuilder: (_, __) => const SizedBox(
-                  height: 8,
+        body: GetBuilder<CartListController>(builder: (cartListController) {
+          return Visibility(
+            visible: cartListController.inProgress == false,
+            replacement: const CenterCircularProgressIndicator(),
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView.separated(
+                    itemCount:
+                        cartListController.cartListModel.cartItemList?.length ??
+                            0,
+                    itemBuilder: (context, index) {
+                      return CartProductItem(
+                        cartItem: cartListController
+                            .cartListModel.cartItemList![index],
+                      );
+                    },
+                    separatorBuilder: (_, __) => const SizedBox(
+                      height: 8,
+                    ),
+                  ),
                 ),
-              ),
+                totalPriceAndCheckOutSection(cartListController.totalPrice),
+              ],
             ),
-            totalPriceAndCheckOutSection,
-          ],
-        ),
+          );
+        }),
       ),
     );
   }
 
-  Container get totalPriceAndCheckOutSection {
+  Container totalPriceAndCheckOutSection(RxDouble totalPrice) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -82,12 +103,14 @@ class _CartsScreenState extends State<CartsScreen> {
                       : Colors.black45,
                 ),
               ),
-              Text(
-                "\$100,000.00",
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primaryColor,
+              Obx(
+                () => Text(
+                  "\$$totalPrice",
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.primaryColor,
+                  ),
                 ),
               ),
             ],

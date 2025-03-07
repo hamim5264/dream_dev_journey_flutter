@@ -140,7 +140,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           const SizedBox(
             height: 8,
           ),
-          reviewAndRatingRow(productDetails.product?.star?.toDouble() ?? 0),
+          reviewAndRatingRow(productDetails.product?.star ?? 0),
           const SizedBox(
             height: 16,
           ),
@@ -155,15 +155,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
           ),
           ColorSelector(
-            // colors: productDetails.color
-            //         ?.split(",")
-            //         .map((e) => getColorFromString(e.trim()))
-            //         .toList() ??
-            //     [],
-            // onChange: (selectedColor) {
-            //   _selectedColor = selectedColor.toString();
-            //   print(_selectedColor);
-            // },
             colors: productDetails.color
                     ?.split(",")
                     .map((e) => getColorFromString(e))
@@ -220,7 +211,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Row reviewAndRatingRow(double rating) {
+  Row reviewAndRatingRow(int rating) {
     return Row(
       children: [
         Wrap(

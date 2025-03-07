@@ -4,7 +4,7 @@ import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/new_product_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/popular_product_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/special_product_controller.dart';
-import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/carts_screen.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/cart_list_screen.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/category_screen.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/home_screen.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/wishlist_screen.dart';
@@ -24,7 +24,7 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
   final List<Widget> _screens = const [
     HomeScreen(),
     CategoryScreen(),
-    CartsScreen(),
+    CartListScreen(),
     WishlistScreen(),
   ];
 

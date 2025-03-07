@@ -1,3 +1,4 @@
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/auth_controller.dart';
 import 'package:get/get.dart';
 
 class MainBottomNavController extends GetxController {
@@ -8,6 +9,12 @@ class MainBottomNavController extends GetxController {
   void changeIndex(int index) {
     if (_selectedIndex == index) {
       return;
+    }
+    if (index == 2 || index == 3) {
+      if (Get.find<AuthController>().isTokenNotNull == false) {
+        AuthController.goToLogin();
+        return;
+      }
     }
     _selectedIndex = index;
     update();
