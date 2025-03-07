@@ -1,5 +1,11 @@
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/data/models/product_details_data.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/add_to_cart_controller.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/auth_controller.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/product_details_controller.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/auth/verify_email_screen.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/reviews_screen.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/utility/app_colors.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/product_details/color_selector.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/product_details/product_image_carousel.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/product_details/size_selector.dart';
@@ -9,7 +15,9 @@ import 'package:get/get.dart';
 import 'package:item_count_number_button/item_count_number_button.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({super.key});
+  const ProductDetailsScreen({super.key, required this.productId});
+
+  final int productId;
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
@@ -32,7 +40,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     "XXL",
   ];
 
-  Color _selectedColor = Colors.purpleAccent;
+  Color? _selectedColor;
+  String? _selectedSize;
+
+  @override
+  void initState() {
+    super.initState();
+    Get.find<ProductDetailsController>().getProductDetails(widget.productId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,25 +57,47 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           "Product Details",
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const ProductImageCarousel(),
-                  productDetailsBody,
-                ],
+      body: GetBuilder<ProductDetailsController>(
+          builder: (productDetailsController) {
+        final productDetails = productDetailsController.productDetails;
+
+        if (productDetailsController.inProgress) {
+          return const CenterCircularProgressIndicator();
+        }
+        if (productDetails == null) {
+          return const Center(child: Text("No product details available."));
+        }
+        return Visibility(
+          visible: productDetailsController.inProgress == false,
+          replacement: const CenterCircularProgressIndicator(),
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      ProductImageCarousel(
+                        urls: [
+                          productDetails.img1 ?? "",
+                          productDetails.img2 ?? "",
+                          productDetails.img3 ?? "",
+                          productDetails.img4 ?? "",
+                        ],
+                      ),
+                      productDetailsBody(productDetails),
+                    ],
+                  ),
+                ),
               ),
-            ),
+              priceAndAddToCartSection,
+            ],
           ),
-          priceAndAddToCartSection,
-        ],
-      ),
+        );
+      }),
     );
   }
 
-  Padding get productDetailsBody {
+  Padding productDetailsBody(ProductDetailsData productDetails) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -70,7 +107,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             children: [
               Expanded(
                 child: Text(
-                  "Happy New Year Special Deal Save 30%",
+                  productDetails.product?.title ?? "",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -86,7 +123,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ValueListenableBuilder(
                   valueListenable: noOfItems,
                   builder: (context, value, _) {
-                    ///--> Design a item counter
                     return ItemCount(
                       initialValue: value,
                       minValue: 1,
@@ -104,7 +140,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           const SizedBox(
             height: 8,
           ),
-          reviewAndRatingRow,
+          reviewAndRatingRow(productDetails.product?.star?.toDouble() ?? 0),
           const SizedBox(
             height: 16,
           ),
@@ -119,10 +155,24 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
           ),
           ColorSelector(
-              colors: colors,
-              onChange: (selectedColor) {
-                _selectedColor = selectedColor;
-              }),
+            // colors: productDetails.color
+            //         ?.split(",")
+            //         .map((e) => getColorFromString(e.trim()))
+            //         .toList() ??
+            //     [],
+            // onChange: (selectedColor) {
+            //   _selectedColor = selectedColor.toString();
+            //   print(_selectedColor);
+            // },
+            colors: productDetails.color
+                    ?.split(",")
+                    .map((e) => getColorFromString(e))
+                    .toList() ??
+                [],
+            onChange: (selectedColor) {
+              _selectedColor = selectedColor;
+            },
+          ),
           const SizedBox(
             height: 16,
           ),
@@ -140,8 +190,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             height: 8,
           ),
           SizeSelector(
-            sizes: sizes,
-            onChange: (s) {},
+            sizes: productDetails.size?.split(",") ?? [],
+            onChange: (s) {
+              _selectedSize = s;
+            },
           ),
           const SizedBox(
             height: 16,
@@ -160,7 +212,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             height: 8,
           ),
           Text(
-            "Smartwatch X1 Pro – A sleek, waterproof smartwatch with heart rate monitoring, fitness tracking, and a 7-day battery life. Stay connected on the go! ⌚🚀 With customizable watch faces and real-time notifications, it's your perfect daily companion.",
+            productDetails.des ?? "",
             style: TextStyle(color: Colors.grey, fontSize: 12),
           ),
         ],
@@ -168,7 +220,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Row get reviewAndRatingRow {
+  Row reviewAndRatingRow(double rating) {
     return Row(
       children: [
         Wrap(
@@ -183,7 +235,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               width: 2,
             ),
             Text(
-              "4.4",
+              rating.toStringAsPrecision(2),
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -243,43 +295,142 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           topRight: Radius.circular(16),
         ),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Price",
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white
-                      : Colors.black45,
+      child: GetBuilder<ProductDetailsController>(
+          builder: (productDetailsController) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Price",
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black45,
+                  ),
                 ),
-              ),
-              Text(
-                "\$1,000",
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primaryColor,
+                Text(
+                  "\$${productDetailsController.productDetails?.product?.price ?? ""}",
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.primaryColor,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(
-            width: 100,
-            child: ElevatedButton(
-              onPressed: () {},
-              child: const Text(
-                "Add To Cart",
-              ),
+              ],
             ),
-          ),
-        ],
-      ),
+            SizedBox(
+              width: 100,
+              child: GetBuilder<AddToCartController>(
+                  builder: (addToCartController) {
+                return Visibility(
+                  visible: addToCartController.inProgress == false,
+                  replacement: const CenterCircularProgressIndicator(),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (_selectedColor != null && _selectedSize != null) {
+                        if (Get.find<AuthController>().isTokenNotNull) {
+                          final stringColor = colorToString(_selectedColor!);
+                          final response = await addToCartController.addToCart(
+                              widget.productId,
+                              stringColor,
+                              _selectedSize!,
+                              noOfItems.value);
+                          if (response) {
+                            Get.snackbar(
+                              "Success",
+                              "Product has been added to cart",
+                              snackPosition: SnackPosition.TOP,
+                              duration: const Duration(seconds: 2),
+                              backgroundColor:
+                                  AppColors.primaryColor.withValues(alpha: 0.3),
+                              colorText: Colors.white,
+                              barBlur: 10,
+                              margin: const EdgeInsets.all(10),
+                            );
+                          } else {
+                            Get.snackbar(
+                              "Add to Cart Failed!",
+                              addToCartController.errorMessage,
+                              snackPosition: SnackPosition.TOP,
+                              duration: const Duration(seconds: 2),
+                              backgroundColor:
+                                  Colors.red.withValues(alpha: 0.5),
+                              colorText: Colors.white,
+                              barBlur: 10,
+                              margin: const EdgeInsets.all(10),
+                            );
+                          }
+                        } else {
+                          Get.to(() => const VerifyEmailScreen());
+                          Get.snackbar(
+                            "Unauthorized!",
+                            "You have to log in before purchase something",
+                            snackPosition: SnackPosition.TOP,
+                            duration: const Duration(seconds: 2),
+                            backgroundColor: Colors.red.withValues(alpha: 0.5),
+                            colorText: Colors.white,
+                            barBlur: 10,
+                            margin: const EdgeInsets.all(10),
+                          );
+                        }
+                      } else {
+                        Get.snackbar(
+                          "Add to Cart Failed!",
+                          "Please select color and size",
+                          snackPosition: SnackPosition.TOP,
+                          duration: const Duration(seconds: 2),
+                          backgroundColor: Colors.red.withValues(alpha: 0.5),
+                          colorText: Colors.white,
+                          barBlur: 10,
+                          margin: const EdgeInsets.all(10),
+                        );
+                      }
+                    },
+                    child: const Text(
+                      "Add To Cart",
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ],
+        );
+      }),
     );
+  }
+
+  /// If Color Code is Hex ->>
+  // Color getColorFromString(String colorCode) {
+  //   String code = colorCode.replaceAll("#", "");
+  //   String hexCode = "FF$code";
+  //   return Color(int.parse("0x$hexCode"));
+  // }
+
+  Color getColorFromString(String color) {
+    color = color.toLowerCase();
+    if (color == "red") {
+      return Colors.red;
+    } else if (color == "white") {
+      return Colors.white;
+    } else if (color == "green") {
+      return Colors.green;
+    }
+    return Colors.grey;
+  }
+
+  String colorToString(Color color) {
+    if (color == Colors.red) {
+      return "Red";
+    } else if (color == Colors.white) {
+      return "White";
+    } else if (color == Colors.green) {
+      return "Green";
+    }
+    return "Grey";
   }
 }
