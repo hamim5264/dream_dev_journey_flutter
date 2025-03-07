@@ -2,7 +2,6 @@ import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/complete_profile_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/verify_otp_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/main_bottom_nav_screen.dart';
-import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/utility/app_colors.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/app_logo.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:flutter/material.dart';
@@ -357,8 +356,8 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                                 completeProfileController.errorMessage,
                                 snackPosition: SnackPosition.TOP,
                                 duration: const Duration(seconds: 2),
-                                backgroundColor: AppColors.primaryColor
-                                    .withValues(alpha: 0.3),
+                                backgroundColor:
+                                    Colors.red.withValues(alpha: 0.5),
                                 colorText: Colors.white,
                                 barBlur: 10,
                                 margin: const EdgeInsets.all(10),

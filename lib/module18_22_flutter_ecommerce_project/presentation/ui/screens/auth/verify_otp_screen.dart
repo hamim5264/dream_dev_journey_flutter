@@ -59,7 +59,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
         "No email found. Please go back and enter your email..",
         snackPosition: SnackPosition.TOP,
         duration: const Duration(seconds: 2),
-        backgroundColor: AppColors.primaryColor.withValues(alpha: 0.3),
+        backgroundColor: Colors.red.withValues(alpha: 0.5),
         colorText: Colors.white,
         barBlur: 10,
         margin: const EdgeInsets.all(10),
@@ -91,7 +91,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
         "No email found. Please go back and enter your email.",
         snackPosition: SnackPosition.TOP,
         duration: const Duration(seconds: 2),
-        backgroundColor: AppColors.primaryColor.withValues(alpha: 0.3),
+        backgroundColor: Colors.red.withValues(alpha: 0.5),
         colorText: Colors.white,
         barBlur: 10,
         margin: const EdgeInsets.all(10),
@@ -210,8 +210,8 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                                 verifyOTPController.errorMessage,
                                 snackPosition: SnackPosition.TOP,
                                 duration: const Duration(seconds: 2),
-                                backgroundColor: AppColors.primaryColor
-                                    .withValues(alpha: 0.3),
+                                backgroundColor:
+                                    Colors.red.withValues(alpha: 0.5),
                                 colorText: Colors.white,
                                 barBlur: 10,
                                 margin: const EdgeInsets.all(10),

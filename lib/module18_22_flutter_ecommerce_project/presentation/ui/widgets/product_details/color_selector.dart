@@ -19,6 +19,7 @@ class _ColorSelectorState extends State<ColorSelector> {
   void initState() {
     super.initState();
     _selectedColor = widget.colors.first;
+    widget.onChange(_selectedColor);
   }
 
   @override
@@ -36,7 +37,7 @@ class _ColorSelectorState extends State<ColorSelector> {
                 child: Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: CircleAvatar(
-                    radius: 15,
+                    radius: 17,
                     backgroundColor: c,
                     child: _selectedColor == c
                         ? const Icon(
