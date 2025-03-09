@@ -136,7 +136,7 @@ class _VerifyOTPScreenState extends State<VerifyOTPScreen> {
                   controller: _pinTEController,
                   appContext: context,
                   length: 6,
-                  obscureText: false,
+                  obscureText: true,
                   animationType: AnimationType.fade,
                   backgroundColor: Colors.transparent,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
