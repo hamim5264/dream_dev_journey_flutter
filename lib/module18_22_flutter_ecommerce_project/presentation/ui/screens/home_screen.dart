@@ -6,8 +6,13 @@ import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/new_product_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/popular_product_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/special_product_controller.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/theme_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/auth/verify_email_screen.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/invoice_list_screen.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/invoice_product_list_screen.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/policy_screen.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/product_list_screen.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/utility/app_colors.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/utility/assets_path.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/category_item.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/center_circular_progress_indicator.dart';
@@ -31,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar,
+      drawer: buildDrawer(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -215,13 +221,6 @@ class _HomeScreenState extends State<HomeScreen> {
         AssetsPath.appLogoNav,
       ),
       actions: [
-        CircleIconButton(
-          onTap: () async {
-            AuthController.clearAuthData();
-            Get.offAll(() => const VerifyEmailScreen());
-          },
-          iconData: CupertinoIcons.escape,
-        ),
         const SizedBox(
           width: 8,
         ),
@@ -240,6 +239,98 @@ class _HomeScreenState extends State<HomeScreen> {
           width: 8,
         ),
       ],
+    );
+  }
+
+  Drawer buildDrawer() {
+    return Drawer(
+      child: Column(
+        children: [
+          GetBuilder<AuthController>(
+            builder: (authController) {
+              return UserAccountsDrawerHeader(
+                accountName:
+                    Text(authController.readProfileData?.cusName ?? ""),
+                accountEmail:
+                    Text(authController.readProfileData?.user?.email ?? ""),
+                currentAccountPicture: CircleAvatar(
+                  backgroundColor: Colors.grey.shade400,
+                  child: const Icon(
+                    Icons.person,
+                    size: 40,
+                    color: Colors.white,
+                  ),
+                ),
+                decoration: BoxDecoration(color: AppColors.primaryColor),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.list,
+              color: AppColors.primaryColor,
+            ),
+            title: Text("Invoice List"),
+            onTap: () {
+              Get.to(() => const InvoiceListScreen());
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.list_alt,
+              color: AppColors.primaryColor,
+            ),
+            title: Text("Invoice Product List"),
+            onTap: () {
+              Get.to(() => const InvoiceProductListScreen());
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.policy,
+              color: AppColors.primaryColor,
+            ),
+            title: Text("Policy"),
+            onTap: () {
+              Get.to(() => const PolicyScreen());
+            },
+          ),
+          ListTile(
+            leading: Obx(() => Icon(
+                  Get.find<ThemeController>().themeMode.value == ThemeMode.dark
+                      ? Icons.dark_mode
+                      : Icons.light_mode,
+                  color: Get.find<ThemeController>().themeMode.value ==
+                          ThemeMode.dark
+                      ? AppColors.primaryColor
+                      : Colors.orange,
+                )),
+            title: Text("Dark Mode"),
+            trailing: Obx(
+              () => Switch(
+                value: Get.find<ThemeController>().themeMode.value ==
+                    ThemeMode.dark,
+                onChanged: (value) {
+                  Get.find<ThemeController>().toggleTheme();
+                },
+                activeColor: AppColors.primaryColor,
+                activeTrackColor: AppColors.primaryColor.withValues(alpha: 0.5),
+              ),
+            ),
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.logout,
+              color: AppColors.primaryColor,
+            ),
+            title: Text("Log Out"),
+            onTap: () {
+              AuthController.clearAuthData();
+              Get.offAll(() => const VerifyEmailScreen());
+            },
+          ),
+        ],
+      ),
     );
   }
 }

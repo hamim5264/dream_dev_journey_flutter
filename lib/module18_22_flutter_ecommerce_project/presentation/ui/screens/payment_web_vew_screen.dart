@@ -1,4 +1,5 @@
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/main_bottom_nav_screen.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/utility/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -51,15 +52,16 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
             Get.offAll(const MainBottomNavScreen());
             Get.snackbar(
               "Payment Success",
-              "You have successfully purchased your item.",
-              isDismissible: true,
+              "You have successfully purchased your item",
+              snackPosition: SnackPosition.TOP,
               duration: const Duration(seconds: 2),
-              animationDuration: const Duration(milliseconds: 1500),
+              backgroundColor: AppColors.primaryColor.withValues(alpha: 0.3),
+              colorText: Colors.white,
+              barBlur: 10,
               margin: const EdgeInsets.all(10),
-              padding: const EdgeInsets.all(5),
               icon: const Icon(
                 Icons.done,
-                color: Colors.green,
+                color: Colors.white,
               ),
             );
             return NavigationDecision.navigate;

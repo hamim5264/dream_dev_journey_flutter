@@ -42,14 +42,43 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                Text(
-                  "Payable: ${invoiceWrapper.payable}",
+                SizedBox(
+                  height: 110,
+                  width: double.infinity,
+                  child: Card(
+                    color: AppColors.primaryColor,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Payable: \$${invoiceWrapper.payable}",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                            "Vat: \$${invoiceWrapper.vat}",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                            "Total: \$${invoiceWrapper.total}",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-                Text(
-                  "Vat: ${invoiceWrapper.vat}",
-                ),
-                Text(
-                  "Total: ${invoiceWrapper.total}",
+                const SizedBox(
+                  height: 8,
                 ),
                 ListView.separated(
                   primary: false,
@@ -74,8 +103,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       ),
                     );
                   },
-                  separatorBuilder: (_, __) => const SizedBox(
-                    height: 8,
+                  separatorBuilder: (_, __) => Divider(
+                    indent: 10,
+                    color: AppColors.primaryColor.withValues(alpha: 0.3),
                   ),
                 ),
               ],
