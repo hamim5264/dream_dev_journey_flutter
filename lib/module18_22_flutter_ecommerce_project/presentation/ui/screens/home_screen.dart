@@ -2,6 +2,7 @@ import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/auth_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/category_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/home_banner_controller.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/invoice_list_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/main_bottom_nav_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/new_product_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/popular_product_controller.dart';
@@ -272,7 +273,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             title: Text("Invoice List"),
             onTap: () {
-              Get.to(() => const InvoiceListScreen());
+              if (Get.find<AuthController>().isTokenNotNull) {
+                Get.to(() => const InvoiceListScreen());
+              } else {
+                Get.to(() => const VerifyEmailScreen());
+              }
             },
           ),
           ListTile(
@@ -282,7 +287,18 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             title: Text("Invoice Product List"),
             onTap: () {
-              Get.to(() => const InvoiceProductListScreen());
+              if (Get.find<AuthController>().isTokenNotNull) {
+                final invoiceListController = Get.find<InvoiceListController>();
+                if (invoiceListController.invoiceList.isNotEmpty) {
+                  int invoiceId =
+                      invoiceListController.invoiceList.first.id ?? 0;
+                  Get.to(() => InvoiceProductListScreen(invoiceId: invoiceId));
+                } else {
+                  Get.snackbar("Error", "No invoices available");
+                }
+              } else {
+                Get.to(() => const VerifyEmailScreen());
+              }
             },
           ),
           ListTile(

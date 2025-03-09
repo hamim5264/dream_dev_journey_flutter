@@ -1,4 +1,6 @@
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/data/services/network_caller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/main_bottom_nav_screen.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/no_internet_screen.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/app_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,17 +13,24 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final NetworkCaller _networkCaller = NetworkCaller();
+
   @override
   void initState() {
     super.initState();
-    moveToNextScreen();
+    checkInternetAndMove();
   }
 
-  Future<void> moveToNextScreen() async {
-    await Future.delayed(
-      const Duration(seconds: 2),
-    );
-    Get.offAll(const MainBottomNavScreen());
+  Future<void> checkInternetAndMove() async {
+    await Future.delayed(const Duration(seconds: 2));
+
+    bool isConnected = await _networkCaller.isConnected();
+
+    if (isConnected) {
+      Get.offAll(const MainBottomNavScreen());
+    } else {
+      Get.offAll(const NoInternetScreen());
+    }
   }
 
   @override
@@ -34,15 +43,9 @@ class _SplashScreenState extends State<SplashScreen> {
             const AppLogo(),
             const Spacer(),
             const CircularProgressIndicator(),
-            const SizedBox(
-              height: 16,
-            ),
-            const Text(
-              "Version 2.0.1",
-            ),
-            const SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
+            const Text("Version 3.0.1"),
+            const SizedBox(height: 16),
           ],
         ),
       ),
