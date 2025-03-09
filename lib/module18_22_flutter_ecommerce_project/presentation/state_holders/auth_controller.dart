@@ -15,62 +15,55 @@ class AuthController extends GetxController {
       String t, ReadProfileModel? p, CompleteProfileModel? cp) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.setString("token", t);
-    await sharedPreferences.setString("readProfile", jsonEncode(p?.toJson()));
-    await sharedPreferences.setString(
-        "completeProfile", jsonEncode(cp?.toJson()));
+    if (p != null) {
+      await sharedPreferences.setString("readProfile", jsonEncode(p.toJson()));
+    }
+    if (cp != null) {
+      await sharedPreferences.setString(
+          "completeProfile", jsonEncode(cp.toJson()));
+    }
     token = t;
     readProfileData = p;
     completeProfileModel = cp;
   }
 
   Future<void> initialize() async {
-    token = await _getToken();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    token = sharedPreferences.getString("token") ?? "";
     readProfileData = await _getProfile();
     completeProfileModel = await _getCompleteProfile();
   }
 
   Future<bool> isLoggedIn() async {
     await initialize();
-    return token != null;
+    return token != null && token!.isNotEmpty;
   }
 
-  bool get isTokenNotNull => token != null;
-
-  Future<String?> _getToken() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.getString("token");
-  }
+  bool get isTokenNotNull => token != null && token!.isNotEmpty;
 
   Future<ReadProfileModel?> _getProfile() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final String? strProfile = sharedPreferences.getString("readProfile");
-    final bool result = strProfile.toString() == null.toString();
-
-    if (result) {
-      return null;
-    } else {
-      return ReadProfileModel.fromJson(jsonDecode(strProfile!));
-    }
+    if (strProfile == null || strProfile.isEmpty) return null;
+    return ReadProfileModel.fromJson(jsonDecode(strProfile));
   }
 
   Future<CompleteProfileModel?> _getCompleteProfile() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     final String? strProfile = sharedPreferences.getString("completeProfile");
-    final bool result = strProfile.toString() == null.toString();
-    if (result) {
-      return null;
-    } else {
-      return CompleteProfileModel.fromJson(jsonDecode(strProfile!));
-    }
+    if (strProfile == null || strProfile.isEmpty) return null;
+    return CompleteProfileModel.fromJson(jsonDecode(strProfile));
   }
 
   static Future<void> clearAuthData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    await sharedPreferences.clear();
+    await sharedPreferences.remove("token");
+    await sharedPreferences.remove("readProfile");
+    await sharedPreferences.remove("completeProfile");
     token = null;
   }
 
   static Future<void> goToLogin() async {
-    Get.to(() => const VerifyEmailScreen());
+    Get.offAll(() => const VerifyEmailScreen());
   }
 }

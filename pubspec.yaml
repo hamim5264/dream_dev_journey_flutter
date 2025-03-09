@@ -63,6 +63,8 @@ dependencies:
   carousel_slider: ^5.0.0
   item_count_number_button: ^1.9.2
   webview_flutter: ^4.10.0
+  connectivity_plus: ^5.0.2
+  flutter_widget_from_html_core: ^0.10.0
 
 
 dev_dependencies:

@@ -22,6 +22,7 @@ class _CartProductItemState extends State<CartProductItem> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.white,
       elevation: 3,
       child: Row(
         children: [
