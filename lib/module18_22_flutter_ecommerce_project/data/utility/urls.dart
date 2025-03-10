@@ -12,6 +12,13 @@ class Urls {
   static String popularProduct = "$_baseUrl/ListProductByRemark/Popular";
   static String specialProduct = "$_baseUrl/ListProductByRemark/Special";
   static String newProduct = "$_baseUrl/ListProductByRemark/New";
+  static String trendingProduct = "$_baseUrl/ListProductByRemark/Trending";
+  static String topProduct = "$_baseUrl/ListProductByRemark/Top";
+  static String regularProduct = "$_baseUrl/ListProductByRemark/Regular";
+  static String brandList = "$_baseUrl/BrandList";
+
+  static String productListByBrand(int brandId) =>
+      "$_baseUrl/ListProductByBrand/$brandId";
 
   static String productsByCategory(int categoryId) =>
       "$_baseUrl/ListProductByCategory/$categoryId";
@@ -32,4 +39,15 @@ class Urls {
       "$_baseUrl/InvoiceProductList/$invoiceId";
 
   static String policy = "$_baseUrl/PolicyByType/about";
+  static String productWishList = "$_baseUrl/ProductWishList";
+
+  static String createWishList(productId) =>
+      "$_baseUrl/CreateWishList/$productId";
+
+  static String removeWishList(productId) =>
+      "$_baseUrl/RemoveWishList/$productId";
+
+  static String reviewList(productId) =>
+      "$_baseUrl/ListReviewByProduct/$productId";
+  static String createReview = "$_baseUrl/CreateProductReview";
 }
