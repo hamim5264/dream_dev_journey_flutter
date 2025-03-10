@@ -37,7 +37,7 @@ class _InvoiceProductListScreenState extends State<InvoiceProductListScreen> {
             CupertinoIcons.left_chevron,
           ),
         ),
-        title: Text("Invoice List",
+        title: Text("Invoice Product List",
             style: TextStyle(
               fontSize: 18,
             )),
@@ -98,6 +98,7 @@ class _InvoiceProductListScreenState extends State<InvoiceProductListScreen> {
                                           style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
+                                            color: Colors.grey,
                                           ),
                                         ),
                                         SizedBox(
@@ -108,6 +109,7 @@ class _InvoiceProductListScreenState extends State<InvoiceProductListScreen> {
                                           style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,
+                                            color: Colors.grey,
                                           ),
                                         ),
                                       ],
