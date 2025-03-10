@@ -51,7 +51,7 @@ class _CartProductItemState extends State<CartProductItem> {
                               fontWeight: FontWeight.w600,
                               color: Theme.of(context).brightness ==
                                       Brightness.dark
-                                  ? Colors.white
+                                  ? Colors.black
                                   : Colors.black54,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -60,12 +60,18 @@ class _CartProductItemState extends State<CartProductItem> {
                             children: [
                               Text(
                                 "Color: ${widget.cartItem.color ?? ""}",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
                               ),
                               const SizedBox(
                                 width: 8,
                               ),
                               Text(
                                 "Size: ${widget.cartItem.size ?? ""}",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
                               ),
                             ],
                           ),
