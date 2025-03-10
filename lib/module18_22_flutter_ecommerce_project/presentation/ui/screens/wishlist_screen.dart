@@ -1,25 +1,33 @@
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/main_bottom_nav_controller.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/product_wish_list_controller.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/utility/app_colors.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/widgets/product_card_item.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class WishlistScreen extends StatefulWidget {
-  const WishlistScreen({super.key});
+class WishListScreen extends StatefulWidget {
+  const WishListScreen({super.key});
 
   @override
-  State<WishlistScreen> createState() => _WishlistScreenState();
+  State<WishListScreen> createState() => _WishListScreenState();
 }
 
-class _WishlistScreenState extends State<WishlistScreen> {
+class _WishListScreenState extends State<WishListScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Get.find<WishListController>().getProductWishList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
-        if (didPop) {
-          Get.find<MainBottomNavController>().backToHome();
-        }
+        Get.find<MainBottomNavController>().backToHome();
       },
       child: Scaffold(
         appBar: AppBar(
@@ -27,32 +35,80 @@ class _WishlistScreenState extends State<WishlistScreen> {
             onPressed: () {
               Get.find<MainBottomNavController>().backToHome();
             },
-            icon: Icon(
-              CupertinoIcons.left_chevron,
-            ),
+            icon: const Icon(Icons.arrow_back_ios),
           ),
-          title: Text(
+          title: const Text(
             "Wish List",
-            style: TextStyle(
-              fontSize: 18,
-            ),
           ),
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: GridView.builder(
-              itemCount: 20,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 0.90,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 4,
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: GetBuilder<WishListController>(builder: (wishListController) {
+            return Visibility(
+              visible: wishListController.inProgress == false,
+              replacement: const CenterCircularProgressIndicator(),
+              child: GridView.builder(
+                itemCount:
+                    wishListController.wishListModel.wishListItem?.length ?? 0,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.90,
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 4,
+                ),
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: InkWell(
+                      onLongPress: () {
+                        showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text(
+                                  "Delete from wish list?",
+                                ),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        wishListController.deleteWishList(
+                                            wishListController
+                                                    .wishListModel
+                                                    .wishListItem![index]
+                                                    .product!
+                                                    .id ??
+                                                0);
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text(
+                                        "Yes",
+                                        style: TextStyle(color: Colors.red),
+                                      )),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text(
+                                      "No",
+                                      style: TextStyle(
+                                          color: AppColors.primaryColor),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            });
+                      },
+                      child: FittedBox(
+                          child: ProductCardItem(
+                              product: wishListController.wishListModel
+                                  .wishListItem![index].product!)),
+                    ),
+                  );
+                },
               ),
-              itemBuilder: (context, index) {
-                // return const FittedBox(
-                //   child: ProductCardItem(),
-                // );
-              }),
+            );
+          }),
         ),
       ),
     );

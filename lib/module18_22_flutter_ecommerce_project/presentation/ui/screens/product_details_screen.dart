@@ -1,7 +1,10 @@
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/data/models/product_details_data.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/data/services/network_caller.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/data/utility/urls.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/add_to_cart_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/auth_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/product_details_controller.dart';
+import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/state_holders/product_wish_list_controller.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/auth/verify_email_screen.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/screens/reviews_screen.dart';
 import 'package:dream_dev_journey_flutter/module18_22_flutter_ecommerce_project/presentation/ui/utility/app_colors.dart';
@@ -242,7 +245,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ),
         TextButton(
             onPressed: () {
-              Get.to(const ReviewsScreen());
+              Get.to(ReviewsScreen(
+                productId: widget.productId,
+              ));
             },
             child: Text(
               "Reviews",
@@ -258,20 +263,69 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         const SizedBox(
           width: 8,
         ),
-        Card(
-          color: AppColors.primaryColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: const Padding(
-            padding: EdgeInsets.all(4),
-            child: Icon(
-              CupertinoIcons.heart,
-              size: 16,
-              color: Colors.white,
+        GetBuilder<ProductDetailsController>(
+            builder: (productDetailsController) {
+          return InkWell(
+            onTap: () async {
+              final response = await NetworkCaller().getRequest(
+                  Urls.createWishList(
+                      productDetailsController.productDetails?.product!.id ??
+                          0));
+              if (response.isSuccess) {
+                Get.snackbar(
+                  "Success",
+                  "This product has been added to wish list",
+                  snackPosition: SnackPosition.TOP,
+                  duration: const Duration(seconds: 2),
+                  backgroundColor:
+                      AppColors.primaryColor.withValues(alpha: 0.3),
+                  colorText: Colors.white,
+                  barBlur: 10,
+                  margin: const EdgeInsets.all(10),
+                );
+              } else {
+                Get.snackbar(
+                  "Failed",
+                  productDetailsController.errorMessage,
+                  snackPosition: SnackPosition.TOP,
+                  duration: const Duration(seconds: 2),
+                  backgroundColor: Colors.red.withValues(alpha: 0.5),
+                  colorText: Colors.white,
+                  barBlur: 10,
+                  margin: const EdgeInsets.all(10),
+                );
+              }
+            },
+            onLongPress: () async {
+              Get.find<WishListController>().deleteWishList(
+                  productDetailsController.productDetails?.product!.id ?? 0);
+              Get.snackbar(
+                "Success",
+                "This product has been successfully removed from wish list",
+                snackPosition: SnackPosition.TOP,
+                duration: const Duration(seconds: 2),
+                backgroundColor: AppColors.primaryColor.withValues(alpha: 0.3),
+                colorText: Colors.white,
+                barBlur: 10,
+                margin: const EdgeInsets.all(10),
+              );
+            },
+            child: Card(
+              color: AppColors.primaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(4),
+                child: Icon(
+                  CupertinoIcons.heart,
+                  size: 16,
+                  color: Colors.white,
+                ),
+              ),
             ),
-          ),
-        ),
+          );
+        }),
       ],
     );
   }

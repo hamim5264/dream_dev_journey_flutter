@@ -32,4 +32,15 @@ class Urls {
       "$_baseUrl/InvoiceProductList/$invoiceId";
 
   static String policy = "$_baseUrl/PolicyByType/about";
+  static String productWishList = "$_baseUrl/ProductWishList";
+
+  static String createWishList(productId) =>
+      "$_baseUrl/CreateWishList/$productId";
+
+  static String removeWishList(productId) =>
+      "$_baseUrl/RemoveWishList/$productId";
+
+  static String reviewList(productId) =>
+      "$_baseUrl/ListReviewByProduct/$productId";
+  static String createReview = "$_baseUrl/CreateProductReview";
 }
